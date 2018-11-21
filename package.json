@@ -1,0 +1,42 @@
+{
+  "name": "jumper-message-cli",
+  "version": "0.1.0",
+  "description": "",
+  "license": "MIT",
+  "repository": "bdougherty/jumper-message-cli",
+  "homepage": "https://github.com/bdougherty/jumper-message-cli#readme",
+  "bugs": {
+    "url": "https://github.com/bdougherty/jumper-message-cli/issues"
+  },
+  "author": {
+    "name": "Brad Dougherty",
+    "email": "me@brad.is"
+  },
+  "bin": {
+    "jumper-message": "cli.js"
+  },
+  "engines": {
+    "node": ">= 8"
+  },
+  "scripts": {
+    "test": "xo && ava"
+  },
+  "files": [
+    "cli.js"
+  ],
+  "dependencies": {
+    "get-stdin": "^6.0.0",
+    "jumper-message": "^1.0.0",
+    "meow": "^5.0.0",
+    "update-notifier": "^2.5.0"
+  },
+  "devDependencies": {
+    "ava": "^0.25.0",
+    "eslint-config-bdougherty": "^5.1.1",
+    "execa": "^1.0.0",
+    "xo": "^0.22.0"
+  },
+  "xo": {
+    "extends": "bdougherty"
+  }
+}
