@@ -31,10 +31,10 @@
     "update-notifier": "^2.5.0"
   },
   "devDependencies": {
-    "ava": "^0.25.0",
+    "ava": "^2.4.0",
     "eslint-config-bdougherty": "^5.1.1",
-    "execa": "^1.0.0",
-    "xo": "^0.22.0"
+    "execa": "^2.0.4",
+    "xo": "^0.25.3"
   },
   "xo": {
     "extends": "bdougherty"
