@@ -1,12 +1,18 @@
 #!/usr/bin/env node
-'use strict';
-const meow = require('meow');
-const getStdin = require('get-stdin');
-const jumper = require('jumper-message');
-const updateNotifier = require('update-notifier');
-const pkg = require('./package.json');
+import { readFileSync } from 'node:fs';
+import meow from 'meow';
+import getStdin from 'get-stdin';
+import jumper from 'jumper-message';
+import updateNotifier from 'update-notifier';
 
-updateNotifier({ pkg }).notify();
+const packageJson = readFileSync(new URL('./package.json', import.meta.url));
+const { name, version } = JSON.parse(packageJson);
+updateNotifier({
+	pkg: {
+		name,
+		version
+	}
+}).notify();
 
 const cli = meow(`
 	Usage
@@ -16,7 +22,7 @@ const cli = meow(`
 	Options
 	  --floors         Number of additional floors to add (Default: 0)
 	  --compact        Remove extra spacing between message lines (Default: false)
-	  --gradient       Render the text as a gradient (Default: false)
+	  --gradient       Render the text as a gradient (Default: none)
 	  --building-style Chalk style string for the building (Default: gray)
 	  --message-style  Chalk style string for the message (Default: bold.white)
 	  --person-style   Chalk style string for the person (Default: white)
@@ -27,10 +33,11 @@ const cli = meow(`
 	  jumper-message 'Friday deploy, good luck!' --floors=4
 	  jumper-message 'Friday deploy, good luck!' --compact --message-style=bold.red.bgWhite
 `, {
+	importMeta: import.meta,
 	flags: {
 		floors: {
-			type: 'string',
-			default: '0'
+			type: 'number',
+			default: 0
 		},
 		compact: {
 			type: 'boolean',
@@ -38,19 +45,19 @@ const cli = meow(`
 		},
 		gradient: {
 			type: 'string',
-			default: false
+			default: 'none'
 		},
 		buildingStyle: {
 			type: 'string',
-			default: null
+			default: 'gray'
 		},
 		messageStyle: {
 			type: 'string',
-			default: null
+			default: 'bold.white'
 		},
 		personStyle: {
 			type: 'string',
-			default: null
+			default: 'white'
 		}
 	}
 });
@@ -63,28 +70,11 @@ const cli = meow(`
 		message = cli.input.join(' ');
 	}
 
-	if (cli.flags.gradient === '') {
-		cli.flags.gradient = true;
-	}
+	const output = jumper(message, {
+		...cli.flags,
+		extraFloors: cli.flags.floors,
+		gradient: cli.flags.gradient === 'none' ? false : cli.flags.gradient
+	});
 
-	const config = {
-		extraFloors: parseInt(cli.flags.floors, 10),
-		compact: cli.flags.compact,
-		gradient: cli.flags.gradient
-	};
-
-	if (cli.flags.buildingStyle) {
-		config.buildingStyle = cli.flags.buildingStyle;
-	}
-
-	if (cli.flags.messageStyle) {
-		config.messageStyle = cli.flags.messageStyle;
-	}
-
-	if (cli.flags.personStyle) {
-		config.personStyle = cli.flags.personStyle;
-	}
-
-	const output = jumper(message, config);
 	console.log(output);
 })();
