@@ -28,7 +28,7 @@ $ jumper-message --help
 	Options
 	  --floors         Number of additional floors to add (Default: 0)
 	  --compact        Remove extra spacing between message lines (Default: false)
-	  --gradient       Render the text as a gradient (Default: false)
+	  --gradient       Render the text as a gradient (Default: none)
 	  --building-style Chalk style string for the building (Default: gray)
 	  --message-style  Chalk style string for the message (Default: bold.white)
 	  --person-style   Chalk style string for the person (Default: white)
